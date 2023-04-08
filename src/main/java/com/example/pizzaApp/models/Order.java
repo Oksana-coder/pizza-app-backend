@@ -1,21 +1,37 @@
 package com.example.pizzaApp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 import lombok.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "pizza_order")
+@Table(name = "orders")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Past(message = "The order date must be in the past")
+    @NonNull
+    @Column(name = "created_date", nullable = false)
+    private LocalDate createdDate;
+
+    @Min(value = 0, message = "Total price cannot be negative")
+    @NonNull
+    @Column(name = "total_price", nullable = false)
+    private float totalPrice;
 
     @NotBlank(message = "Description cannot be blank")
     @NonNull
@@ -25,4 +41,8 @@ public class Order {
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "pizza_id", referencedColumnName = "id")
+    private Pizza pizza;
 }

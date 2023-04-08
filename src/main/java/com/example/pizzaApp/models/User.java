@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user_data")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -29,7 +29,7 @@ public class User {
     @NotBlank(message = "The email cannot be blank")
     @NonNull
     @Email
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @JsonIgnore
