@@ -32,6 +32,11 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @NotBlank(message = "password cannot be blank")
+    @NonNull
+    @Column(nullable = false)
+    private String password;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders;

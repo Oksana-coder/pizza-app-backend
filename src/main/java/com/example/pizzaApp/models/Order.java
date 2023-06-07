@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Past;
 import lombok.*;
 
@@ -42,7 +43,13 @@ public class Order {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "pizza_id", referencedColumnName = "id")
-    private Pizza pizza;
+    @NotEmpty(message = "Pizzas field cannot be blank")
+//    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "order_pizza",
+            joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "pizza_id", referencedColumnName = "id")
+    )
+    private List<Pizza> pizzas;
 }

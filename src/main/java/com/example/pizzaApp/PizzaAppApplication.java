@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class PizzaAppApplication implements CommandLineRunner {
@@ -25,10 +27,10 @@ public class PizzaAppApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		User[] users = new User[] {
-			new User("Harry", "harry@gmail.com"),
-			new User("Ron", "ron@gmail.com"),
-			new User("Hermione", "hermione@gmail.com"),
-			new User("Neville", "neville@gmail.com"),
+			new User("Harry", "harry@gmail.com", "12345"),
+			new User("Ron", "ron@gmail.com", "09876"),
+			new User("Hermione", "hermione@gmail.com", "qwerty"),
+			new User("Neville", "neville@gmail.com", "poiuy"),
 		};
 
 		for (int i = 0; i < users.length; i++) {
@@ -36,13 +38,19 @@ public class PizzaAppApplication implements CommandLineRunner {
 		}
 
 		Pizza[] pizzas = new Pizza[] {
-				new Pizza("Diabolo", 13),
-				new Pizza("Four Seasons", 16),
+				new Pizza("Diavolo", 13),
+				new Pizza("Quattro Stagioni", 16),
 				new Pizza("Margherita", 12),
+				new Pizza("Quattro Formaggi", 12),
 		};
 
 		for (int i = 0; i < pizzas.length; i++) {
 			pizzaRepository.save(pizzas[i]);
 		}
+	}
+
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 }

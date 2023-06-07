@@ -32,6 +32,6 @@ public class Pizza {
     private float price;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "pizza", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "pizzas")
     private List<Order> orders;
 }

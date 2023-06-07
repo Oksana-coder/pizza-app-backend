@@ -2,8 +2,10 @@ package com.example.pizzaApp.services;
 
 import com.example.pizzaApp.exceptions.OrderNotFoundException;
 import com.example.pizzaApp.models.Order;
+import com.example.pizzaApp.models.Pizza;
 import com.example.pizzaApp.models.User;
 import com.example.pizzaApp.repositories.OrderRepository;
+import com.example.pizzaApp.repositories.PizzaRepository;
 import com.example.pizzaApp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
+    private final PizzaRepository pizzaRepository;
 
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
@@ -39,6 +42,14 @@ public class OrderService {
 
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
+    }
+
+    public Order addPizzaToOrder(Long pizzaId, Long orderId) {
+        Order order = getOrder(orderId);
+        Optional<Pizza> pizza = pizzaRepository.findById(pizzaId);
+        Pizza unwrappedPizza = PizzaService.unwrapPizza(pizza, pizzaId);
+        order.getPizzas().add(unwrappedPizza);
+        return orderRepository.save(order);
     }
 
     static Order unwrapOrder(Optional<Order> entity, Long id) {

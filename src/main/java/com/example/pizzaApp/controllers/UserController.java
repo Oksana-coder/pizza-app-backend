@@ -17,6 +17,11 @@ public class UserController {
 
     private final UserService userService;
 
+    @PostMapping("/register")
+    public ResponseEntity<User> saveUser(@Valid @RequestBody User user) {
+        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
@@ -25,11 +30,6 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<User> saveUser(@Valid @RequestBody User user) {
-        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

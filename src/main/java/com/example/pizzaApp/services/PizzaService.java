@@ -4,7 +4,6 @@ import com.example.pizzaApp.exceptions.PizzaNotFoundException;
 import com.example.pizzaApp.models.Pizza;
 import com.example.pizzaApp.repositories.PizzaRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
