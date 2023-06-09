@@ -12,12 +12,12 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/orders")
 public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
         return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
     }
@@ -27,12 +27,12 @@ public class OrderController {
         return new ResponseEntity<>(orderService.getOrder(id), HttpStatus.OK);
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/users/{userId}")
     public ResponseEntity<List<Order>> getUserOrders(@PathVariable Long userId) {
         return new ResponseEntity<>(orderService.getUserOrders(userId), HttpStatus.OK);
     }
 
-    @PostMapping("/user/{userId}")
+    @PostMapping("/users/{userId}")
     public ResponseEntity<Order> saveOrder(@Valid @RequestBody Order order, @PathVariable Long userId) {
         return new ResponseEntity<>(orderService.saveOrder(order, userId), HttpStatus.CREATED);
     }

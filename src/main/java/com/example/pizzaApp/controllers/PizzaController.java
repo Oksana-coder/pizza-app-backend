@@ -12,12 +12,12 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/pizza")
+@RequestMapping("/pizzas")
 public class PizzaController {
 
     private final PizzaService pizzaService;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<Pizza>> getAllPizzas() {
         return new ResponseEntity<>(pizzaService.getAllPizzas(), HttpStatus.OK);
     }
