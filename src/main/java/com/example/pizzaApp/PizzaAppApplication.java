@@ -8,10 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class PizzaAppApplication implements CommandLineRunner {
@@ -49,22 +45,5 @@ public class PizzaAppApplication implements CommandLineRunner {
 		for (int i = 0; i < pizzas.length; i++) {
 			pizzaRepository.save(pizzas[i]);
 		}
-	}
-
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-	return new WebMvcConfigurer() {
-		@Override
-		public void addCorsMappings(CorsRegistry registry) {
-			registry.addMapping("/**")
-					.allowedOrigins("http://127.0.0.1:5173")
-					.allowedMethods("*");
-		}
-	};
 	}
 }
