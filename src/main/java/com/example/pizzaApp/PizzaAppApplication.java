@@ -4,6 +4,7 @@ import com.example.pizzaApp.models.Pizza;
 import com.example.pizzaApp.models.User;
 import com.example.pizzaApp.repositories.PizzaRepository;
 import com.example.pizzaApp.repositories.UserRepository;
+import com.example.pizzaApp.security.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,10 +30,10 @@ public class PizzaAppApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		User[] users = new User[] {
-			new User("Harry", "harry@gmail.com", "12345"),
-			new User("Ron", "ron@gmail.com", "09876"),
-			new User("Hermione", "hermione@gmail.com", "qwerty"),
-			new User("Neville", "neville@gmail.com", "poiuy"),
+			new User("Harry", "harry@gmail.com", "12345", Role.USER),
+			new User("Ron", "ron@gmail.com", "09876", Role.USER),
+			new User("Hermione", "hermione@gmail.com", "qwerty", Role.USER),
+			new User("Neville", "neville@gmail.com", "poiuy", Role.USER),
 		};
 
 		for (int i = 0; i < users.length; i++) {

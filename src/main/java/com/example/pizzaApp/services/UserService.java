@@ -3,6 +3,9 @@ package com.example.pizzaApp.services;
 import com.example.pizzaApp.exceptions.UserNotFoundException;
 import com.example.pizzaApp.models.User;
 import com.example.pizzaApp.repositories.UserRepository;
+import com.example.pizzaApp.security.AuthenticationRequest;
+import com.example.pizzaApp.security.AuthenticationResponse;
+import com.example.pizzaApp.security.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,15 +29,36 @@ public class UserService {
         return unwrapUser(user, id);
     }
 
-    public User getUser(String name) {
-        Optional<User> user = userRepository.findByName(name);
+    public User getUser(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
         return unwrapUser(user, 404L);
     }
 
-    public User saveUser(User user) {
+    public AuthenticationResponse saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        userRepository.save(user);
+        return AuthenticationResponse.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .role(Role.USER)
+                .build();
     }
+
+    public AuthenticationResponse loginUser(String username) {
+        var user = this.getUser(username);
+        return AuthenticationResponse.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .build();
+    }
+
+//    public User saveUser(User user) {
+//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+//        return userRepository.save(user);
+//    }
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
@@ -47,5 +71,4 @@ public class UserService {
             throw new UserNotFoundException(id);
         }
     }
-
 }

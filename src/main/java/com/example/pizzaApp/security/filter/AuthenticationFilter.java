@@ -3,8 +3,11 @@ package com.example.pizzaApp.security.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.pizzaApp.models.User;
+import com.example.pizzaApp.security.AuthenticationResponse;
 import com.example.pizzaApp.security.SecurityConstants;
 import com.example.pizzaApp.security.manager.CustomAuthenticationManager;
+import com.example.pizzaApp.services.UserService;
+import com.example.pizzaApp.utils.HelperUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,12 +26,13 @@ import java.util.Date;
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private CustomAuthenticationManager authenticationManager;
+    private final UserService userService;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
             User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(user.getName(), user.getPassword());
+            Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
             return authenticationManager.authenticate(authentication);
         } catch (IOException e) {
             throw new RuntimeException();
@@ -49,5 +53,14 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
                 .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY));
         response.addHeader(SecurityConstants.AUTHORIZATION, SecurityConstants.BEARER + token);
+
+        String username = authResult.getName();
+        AuthenticationResponse signedInUser = userService.loginUser(username);
+//        User user = userService.getUser(username);
+        String jsonUser = HelperUtils.JSON_WRITER.writeValueAsString(signedInUser);
+
+        response.setContentType("application/json; charset=UTF-8");
+        response.getWriter().write(jsonUser);
+        logger.info("End success authentication,");
     }
 }
