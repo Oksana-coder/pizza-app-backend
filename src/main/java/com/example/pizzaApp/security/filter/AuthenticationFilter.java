@@ -55,7 +55,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         response.addHeader(SecurityConstants.AUTHORIZATION, SecurityConstants.BEARER + token);
 
         String username = authResult.getName();
-        AuthenticationResponse signedInUser = userService.loginUser(username);
+        AuthenticationResponse signedInUser = userService.loginUser(username, token);
 //        User user = userService.getUser(username);
         String jsonUser = HelperUtils.JSON_WRITER.writeValueAsString(signedInUser);
 
