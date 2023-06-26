@@ -31,6 +31,11 @@ public class Pizza {
     @Column(name = "price", nullable = false)
     private float price;
 
+    @NotBlank(message = "Image cannot be blank")
+    @NonNull
+    @Column(name = "image", nullable = false, unique = true)
+    private String img;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "pizzas")
     private List<Order> orders;
