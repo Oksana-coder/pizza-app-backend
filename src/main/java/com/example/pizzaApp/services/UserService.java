@@ -45,13 +45,14 @@ public class UserService {
                 .build();
     }
 
-    public AuthenticationResponse loginUser(String username) {
+    public AuthenticationResponse loginUser(String username, String token) {
         var user = this.getUser(username);
         return AuthenticationResponse.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
                 .role(user.getRole())
+                .token(token)
                 .build();
     }
 
