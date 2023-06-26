@@ -24,16 +24,6 @@ public class UserController {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
     }
 
-//    @PostMapping("/authenticate")
-//    public ResponseEntity<AuthenticationResponse> loginUser(@RequestBody AuthenticationRequest request) {
-//        return new ResponseEntity<>(userService.loginUser(request), HttpStatus.OK);
-//    }
-
-//    @PostMapping("/register")
-//    public ResponseEntity<User> saveUser(@Valid @RequestBody User user) {
-//        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
-//    }
-
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
