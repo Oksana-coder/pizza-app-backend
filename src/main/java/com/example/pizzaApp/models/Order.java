@@ -24,7 +24,7 @@ public class Order {
     @Column(name = "id")
     private Long id;
 
-    @Past(message = "The order date must be in the past")
+//    @Past(message = "The order date must be in the past")
     @NonNull
     @Column(name = "created_date", nullable = false)
     private LocalDate createdDate;
